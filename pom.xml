@@ -39,6 +39,21 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+    <distributionManagement>
+	
+	    <repository>
+	      <id>nexus</id>
+	      <name>Sai Releases Nexus Repository</name>
+	      <url>http://65.0.202.220:8081/repository/kmart-release/</url>
+	    </repository>
+	    
+	    <snapshotRepository>
+	      <id>nexus</id>
+	      <name>Sai Snapshot Nexus Repository </name>
+	      <url>http://65.0.202.220:8081/repository/kmart-snapshot/</url>
+	    </snapshotRepository>
+	    
+	</distributionManagement>
   <plugins>
     
             <plugin>
