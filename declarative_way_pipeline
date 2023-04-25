@@ -1,0 +1,47 @@
+pipeline{
+    
+agent any
+tools{
+        maven "maven3.9.1"
+    }
+    
+stages{ 
+        //GIT
+        stage('CheckoutCode'){
+        steps{
+        git credentialsId: 'b0835266-05c0-46db-9bcb-71bbdb114435', url: 'https://github.com/ksaipraveen/Complete-CICD-with-Jenkins.git'
+    }
+    }
+    
+    //BUILD
+    stage('Build'){
+    steps{
+        sh "mvn clean package"
+    }
+    }
+    
+    //SONAR
+    stage('ExecuteSonarqubeReport'){
+    steps{
+        sh "mvn sonar:sonar"
+    }
+    }
+    
+    //NEXUS
+    stage('uploadartifactsintonexus'){
+    steps{
+        sh "mvn deploy"
+    }
+    }
+    
+    //DEPLOY
+    stage('DeploytoTomcat'){
+    steps{
+    sshagent(['3a8002e8-be9d-4c46-8ef6-68bc422e480a']) {
+        sh "scp -o StrictHostKeyChecking=no target/*.war ec2-user@65.0.212.290:/opt/tomcat/webapps/"
+        }
+    }
+    }
+    }//stage closing
+    
+}//pipeline closing
